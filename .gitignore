@@ -1,18 +1,7 @@
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
 
-roadapikey.txt
-kakaomapkey.txt
-oepnweatherkey.txt
-상권정보서울.csv
-.ipynb_checkpoints
-*/.ipynb_checkpoints/*
-samples/
-googlemapskey.txt
-chromedriver.exe
-data/
-coffee/
-covid.txt
+fontawesome-free-5.15.1-web/
 
 # IPython
 profile_default/

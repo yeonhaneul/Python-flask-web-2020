@@ -1,0 +1,43 @@
+{% extends "09.base.html" %}
+
+{% block st %}
+<style>
+    .carousel-inner img {
+    width: 100%;
+    height: 100%;
+    }
+</style>
+{% endblock %}
+
+{% block title %}
+<h2>Bootstrap 4 Carousel <i class="fas fa-home"></i></h2>
+{% endblock %}
+
+{% block weather %} {{ weather | safe}} {% endblock %}
+
+{% block content %}
+<div id="demo" class="carousel slide" data-ride="carousel">
+    <ul class="carousel-indicators">
+        <li data-target="#demo" data-slide-to="0" class="active"></li>
+        <li data-target="#demo" data-slide-to="1"></li>
+        <li data-target="#demo" data-slide-to="2"></li>
+    </ul>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="https://picsum.photos/640/360?q=1">
+        </div>
+        <div class="carousel-item">
+            <img src="https://picsum.photos/640/360?q=1">
+        </div>
+        <div class="carousel-item">
+            <img src="https://picsum.photos/640/360?q=1">
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next" href="#demo" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </a>
+</div>
+{% endblock %}

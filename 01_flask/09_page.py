@@ -21,9 +21,5 @@ def index():
     menu = {'ho':1, 'da':0, 'ml':0, 'se':0, 'co':0, 'cg':0, 'cr':0, 'st':0, 'wc':0} #해당 메뉴가 선택되면, active가 되도록
     return render_template('09.m_page.html', menu=menu, weather=get_weather_main())
 
-@app.route("/carousel")
-def carousel():
-    return render_template('09.Carousel.html')
-
 if __name__ == '__main__':
     app.run(debug=True)

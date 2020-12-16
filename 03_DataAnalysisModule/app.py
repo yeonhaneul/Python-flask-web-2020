@@ -1,0 +1,38 @@
+from flask import Flask, render_template, session, request, g
+from bp1_seoul.seoul import seoul_bp
+from bp5_stock.stock import stock_bp
+from datetime import timedelta
+import os, json, logging
+from logging.config import dictConfig
+from my_util.weather import get_weather
+
+app = Flask(__name__)
+app.secret_key = 'qwert12345'
+app.config['SESSION_COOKIE_PATH'] = '/'
+app.register_blueprint(seoul_bp, url_prefix='/seoul')
+app.register_blueprint(stock_bp, url_prefix='/stock')
+
+with open('./logging.json', 'r') as file:
+    config = json.load(file)
+dictConfig(config)
+#app.logger 
+
+def get_weather_main():
+    weather = None
+    try:
+        weather = session['weather']
+    except:
+        app.logger.info("get new weather info")
+        weather = get_weather()
+        session['weather'] = weather
+        session.permanent = True
+        app.permanent_session_lifetime = timedelta(minutes=60)
+    return weather
+
+@app.route('/')
+def index():
+    menu = {'ho':1, 'da':0, 'ml':0, 'se':0, 'co':0, 'cg':0, 'cr':0, 'st':0, 'wc':0}
+    return render_template('m_page.html', menu=menu, weather=get_weather_main())
+
+if __name__ == '__main__':
+    app.run(debug=True)

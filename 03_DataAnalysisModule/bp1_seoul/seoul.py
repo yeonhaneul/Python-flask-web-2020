@@ -61,7 +61,7 @@ def park():
         else:
             gu_name = request.form['gu']
             df = park_gu[park_gu.index == gu_name].reset_index()
-            park_result = {'gu':park_gu.index[0],
+            park_result = {'gu':df['지역'][0],
                         '공원면적':int(df['공원면적'][0]), 's_공원면적':int(park_gu['공원면적'].mean()),
                         '공원수':df['공원수'][0], 's_공원수':round(park_gu['공원수'].mean(),1),
                         '공원면적비율': round(df['공원면적비율'][0],2), 's_공원면적비율':round(park_gu['공원면적비율'].mean(),2),

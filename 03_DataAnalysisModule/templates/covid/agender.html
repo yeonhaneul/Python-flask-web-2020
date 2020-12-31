@@ -9,7 +9,7 @@
 {% endblock %}
 {% block weather %} {{ weather|safe() }} {% endblock %}
 {% block subtitle %}
-    <strong">코로나-19 연령별/성별 현황</strong><small> - {{date}}</small>
+    <strong>코로나-19 연령별/성별 현황</strong><small> - {{date}}</small>
 {% endblock %}
 {% block content %}
     <div class="row">
@@ -19,7 +19,8 @@
                 <label class="control-label mr-2">날짜:</label>
                 <input type="text" name="dateCustomer" id="datepicker1">
                 <button class="btn btn-success btn-sm ml-2" id="submit" type="button">검색</button>
-                <button class="btn btn-success btn-sm ml-2" onclick="location.href='/covid/update_agender/{{date}}'">데이터 가져오기</button>
+                <button class="btn btn-success btn-sm ml-2" 
+                        onclick="location.href='/covid/update_agender/{{date}}'">데이터 가져오기</button>
             </div>
         </div>
         <div class="col-1"></div>
@@ -54,33 +55,17 @@
     </div>
 {% endblock %}
 {% block additional_body %}
-<script src="{{url_for('static', filename='js/jquery-ui.min.js')}}"></script>
-<script>
-    $.datepicker.setDefaults({
-        dateFormat: 'yy-mm-dd',
-        prevText: '이전 달',
-        nextText: '다음 달',
-        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-        showMonthAfterYear: true,
-        yearSuffix: '년'
-    });
-    $(function() {
-        $("#datepicker1").datepicker();
-    });
+    {% include './inc/one_datepicker.html' %}
+    <script>
+        $('#submit').on('click', function(e) {
+            e.preventDefault();
 
-    $('#submit').on('click', function(e) {
-        e.preventDefault();
+            date = $('#datepicker1').val(); 
+            endpoint = '/covid/agender?date=' + date;
 
-        date = $('#datepicker1').val(); 
-        endpoint = '/covid/agender?date=' + date;
+            window.location.href = endpoint
 
-        window.location.href = endpoint
-
-        return false;
-    });
-</script>
+            return false;
+        });
+    </script>
 {% endblock %}

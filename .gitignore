@@ -7,6 +7,8 @@ kakaomapkey.txt
 소상공인시장진흥공단*
 upload/
 chromedriver.exe
+gov_data_api_key.txt
+seoul_api_key.txt
 
 # IPython
 profile_default/

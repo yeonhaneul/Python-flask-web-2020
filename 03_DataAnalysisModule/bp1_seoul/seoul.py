@@ -3,6 +3,11 @@ from flask import current_app
 from datetime import timedelta
 import os, folium, json
 import pandas as pd
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+mpl.rc('font', family='Malgun Gothic')
+mpl.rc('axes', unicode_minus=False)
 from my_util.weather import get_weather
 
 seoul_bp = Blueprint('seoul_bp', __name__)
@@ -136,3 +141,41 @@ def crime(option):
     mtime = int(os.stat(html_file).st_mtime)
     return render_template('seoul/crime.html', menu=menu, weather=get_weather_main(),
                             option=option, option_dict=option_dict, mtime=mtime)
+
+@seoul_bp.route('/cctv/<option>')
+def cctv(option):
+    menu = {'ho':0, 'da':1, 'ml':0, 'se':1, 'co':0, 'cg':0, 'cr':0, 'st':0, 'wc':0}
+    cctv = pd.read_csv('./static/data/cctv.csv', index_col='구별')
+    geo_str = json.load(open('./static/data/skorea_municipalities_geo_simple.json',
+                         encoding='utf8'))
+    option_dict = {'count':'CCTV 수', 'percent':'CCTV 비율', 'scatter':'산점도'}
+    current_app.logger.debug(option_dict[option])
+
+    if option == 'count':
+        cctv['소계'].sort_values().plot(kind='barh', grid=True, figsize=(8,8))
+
+    else:
+        if option == 'percent':
+            cctv['cctv비율'].sort_values().plot(kind='barh', grid=True, figsize=(8,8))
+
+        else:
+            plt.figure(figsize=(12,7))
+            fp1 = np.polyfit(cctv['인구수'], cctv['소계'], 1)
+            f1=np.poly1d(fp1)
+            fx=np.linspace(100000, 700000, 100)
+
+            plt.scatter(cctv['인구수'], cctv['소계'], c=cctv['오차'], s=50)
+            plt.plot(fx, f1(fx), ls='dashed', lw=3, color='g')
+            plt.xlabel('인구수')
+            plt.ylabel('CCTV')
+            plt.grid()
+
+            for n in range(10):
+                plt.text(cctv['인구수'][n]*1.02, cctv['소계'][n]*0.98, cctv.index[n], fontsize=15)
+
+    img_file = os.path.join(current_app.root_path, 'static/img/cctv.png')
+    plt.savefig(img_file)
+    mtime = int(os.stat(img_file).st_mtime)
+    
+    return render_template('seoul/cctv.html', menu=menu, weather=get_weather_main(), 
+                                mtime=mtime, option=option, option_dict=option_dict)

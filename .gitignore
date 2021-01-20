@@ -9,6 +9,7 @@ upload/
 chromedriver.exe
 gov_data_api_key.txt
 seoul_api_key.txt
+model/
 
 # IPython
 profile_default/

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block weather %} {{ weather|safe() }} {% endblock %}
+{% block subtitle %}
+    <strong>{{item}}</strong>
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-6">
+        <table>
+            <tr>
+                <td>
+                    <img src="{{url_for('static', filename='img/burger.png', q=mtime)}}"
+                            width="600" alt="버거 지수 이미지">
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-1"></div>
+    <div class="col-3">
+        <table class="table table-condensed mx-5">
+            <thead>
+                <th colspan="2" style="text-align: center;">TOP 10</th>
+            </thead>
+            {% for key, value in top10.items() %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td style="text-align: center;" colspan="2">
+                    <button class="btn btn-primary"
+                            onclick="location.href='/cartogram/burger'">재실행</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>   
+{% endblock %}

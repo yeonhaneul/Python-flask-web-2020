@@ -22,7 +22,7 @@ app.register_blueprint(carto_bp, url_prefix='/cartogram')
 app.register_blueprint(crawl_bp, url_prefix='/crawling')
 app.register_blueprint(word_bp, url_prefix='/wordcloud')
 app.register_blueprint(clsf_bp, url_prefix='/classification')
-app.register_blueprint(aclsf_bp, url_prefix='/a_classification')
+app.register_blueprint(aclsf_bp, url_prefix='/advanced')
 app.register_blueprint(rgrs_bp, url_prefix='/regression')
 app.register_blueprint(clus_bp, url_prefix='/cluster')
 

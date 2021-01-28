@@ -6,6 +6,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.datasets import load_digits
 import os, joblib
 import pandas as pd
+import re
 import matplotlib.pyplot as plt
 from my_util.weather import get_weather
 
@@ -68,10 +69,12 @@ def digits():
 
 @aclsf_bp.before_app_first_request
 def before_app_first_request():
-    global news20_countlr, news20_tfidflr, news20_tfidfsvc
+    global news20_countlr, news20_tfidflr, news20_tfidfsvc, imdb_countlr, imdb_tfidflr
     news20_countlr = joblib.load('static/model/news20_countlr.pkl')
     news20_tfidflr = joblib.load('static/model/news20_tfidflr.pkl')
     news20_tfidfsvc = joblib.load('static/model/news20_tfidfsvc.pkl')
+    imdb_countlr = joblib.load('static/model/IMDB_countlr.pkl')
+    imdb_tfidflr = joblib.load('static/model/IMDB_tfidflr.pkl')
 
 @aclsf_bp.route('/news20', methods=['GET', 'POST'])
 def news20():
@@ -104,3 +107,36 @@ def news20():
         org = dict(zip(df.columns[:-1], df.iloc[index, :-1]))
         return render_template('a_classification/news20_res.html', menu=menu, 
                                 res=result, org=org, news=df.data[index], weather=get_weather())
+
+@aclsf_bp.route('/imdb', methods=['GET', 'POST'])
+def imdb():
+    menu = {'ho':0, 'da':0, 'ml':1, 
+            'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
+            'cf':0, 'ac':1, 're':0, 'cu':0}
+    if request.method == 'GET':
+        return render_template('a_classification/imdb.html', menu=menu, weather=get_weather())
+    else:
+        review_list = []
+        if request.form['option'] == 'index':
+            index = int(request.form['index'])
+            df = pd.read_csv('static/data/IMDB/testData.tsv', header=0, sep='\t', quoting=3)
+            text_data = df.iloc[index, -1]
+            review_list.append(text_data)
+
+            pred_cl = imdb_countlr.predict(review_list)
+            pred_tl = imdb_tfidflr.predict(review_list)
+
+            result = {'index':index, 'pred_cl':pred_cl, 'pred_tl':pred_tl}
+            
+        else:
+            review = request.form['review']     
+            r_review = review.replace('<br />', ' ')
+            n_review = re.sub('[^a-zA-Z]', ' ', r_review)
+            review_list.append(n_review)
+
+            pred_cl = imdb_countlr.predict(review_list)
+            pred_tl = imdb_tfidflr.predict(review_list)
+
+            result = {'review':review, 'pred_cl':pred_cl, 'pred_tl':pred_tl}
+        return render_template('a_classification/imdb_res.html', menu=menu, 
+                                res=result, imdb=review_list[0], weather=get_weather())

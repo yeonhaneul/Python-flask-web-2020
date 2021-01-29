@@ -30,7 +30,7 @@ def cancer():
     if request.method == 'GET':
         return render_template('classification/cancer.html', menu=menu, weather=get_weather())
     else:
-        index = int(request.form['index'])
+        index = int(request.form['index'] or '0')
         df = pd.read_csv('static/data/cancer_test.csv')
         scaler = MinMaxScaler()
         scaled_test = scaler.fit_transform(df.iloc[:, :-1])
@@ -56,7 +56,7 @@ def titanic():
     if request.method == 'GET':
         return render_template('classification/titanic.html', menu=menu, weather=get_weather())
     else:
-        index = int(request.form['index'])
+        index = int(request.form['index'] or '0')
         df = pd.read_csv('static/data/titanic_test.csv')
         scaler = joblib.load('static/model/titanic_scaler.pkl')
         test_data = df.iloc[index, 1:].values.reshape(1,-1)
@@ -91,7 +91,7 @@ def pima():
     if request.method == 'GET':
         return render_template('classification/pima.html', menu=menu, weather=get_weather())
     else:
-        index = int(request.form['index'])
+        index = int(request.form['index'] or '0')
         df = pd.read_csv('static/data/pima_test.csv')
         scaler = joblib.load('static/model/pima_scaler.pkl')
         test_data = df.iloc[index, :-1].values.reshape(1,-1)
@@ -117,7 +117,7 @@ def iris():
     if request.method == 'GET':
         return render_template('classification/iris.html', menu=menu, weather=get_weather())
     else:
-        index = int(request.form['index'])
+        index = int(request.form['index'] or '0')
         df = pd.read_csv('static/data/iris_test.csv')
         scaler = joblib.load('static/model/iris_scaler.pkl')
         test_data = df.iloc[index, :-1].values.reshape(1,-1)
@@ -143,7 +143,7 @@ def wine():
     if request.method == 'GET':
         return render_template('classification/wine.html', menu=menu, weather=get_weather())
     else:
-        index = int(request.form['index'])
+        index = int(request.form['index'] or '0')
         df = pd.read_csv('static/data/wine_test.csv')
         scaler = joblib.load('static/model/wine_scaler.pkl')
         test_data = df.iloc[index, :-1].values.reshape(1,-1)

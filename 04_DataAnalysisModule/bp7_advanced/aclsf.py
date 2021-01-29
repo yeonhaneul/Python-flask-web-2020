@@ -33,7 +33,7 @@ def digits():
     if request.method == 'GET':
         return render_template('a_classification/digits.html', menu=menu, weather=get_weather())
     else:
-        index = int(request.form['index'])
+        index = int(request.form['index'] or '0')
         index_list = list(range(index, index+5))
         digits = load_digits()
         df = pd.read_csv('static/data/digits_test.csv')
@@ -90,7 +90,7 @@ def news20():
     if request.method == 'GET':
         return render_template('a_classification/news20.html', menu=menu, weather=get_weather())
     else:
-        index = int(request.form['index'])
+        index = int(request.form['index'] or '0')
         df = pd.read_csv('static/data/new20_test.csv')
         label = f'{df.target[index]} ({target_names[df.target[index]]})'
         test_data = []
@@ -118,7 +118,7 @@ def imdb():
     else:
         review_list = []
         if request.form['option'] == 'index':
-            index = int(request.form['index'])
+            index = int(request.form['index'] or '0') # default 0
             df = pd.read_csv('static/data/IMDB/testData.tsv', header=0, sep='\t', quoting=3)
             text_data = df.iloc[index, -1]
             review_list.append(text_data)

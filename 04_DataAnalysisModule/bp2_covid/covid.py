@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, session, g
 from flask import current_app, redirect, url_for
-from datetime import datetime, timedelta
+from datetime import datetime, date, timedelta
 import os, folium, json
 import pandas as pd
 import matplotlib as mpl 
@@ -190,10 +190,16 @@ def seoul_comp():
         mpl.rc('axes', unicode_minus=False)
         menu = {'ho':0, 'da':1, 'ml':0, 'se':0, 'co':1, 'cg':0, 'cr':0, 'st':0, 'wc':0}
 
-        start_date = request.args.get('startDate', '2020-01-01')
-        end_date = request.args.get('endDate', datetime.now().strftime('%Y-%m-%d'))
+        # 최근 1년치 데이터만 보여주기 위해 수정
+        today = date.today()
+        last_month = 1 if today.month == 12 else today.month+1
+        last_date = date(today.year-1, last_month, 1)
+
+        start_date = request.args.get('startDate', last_date.strftime('%Y-%m-%d'))
+        end_date = request.args.get('endDate', today.strftime('%Y-%m-%d'))
         cdf_raw, _ = cu.make_corona_raw_df(start_date, end_date)
-        cdf = cu.make_corona_df(cdf_raw)
+        cdf = cu.make_corona_df(cdf_raw, last_month)
+        ### 이곳까지 수정 ###
 
         month = request.args.get('month', 'ratio')
         img_file = os.path.join(current_app.root_path, 'static/img/seoul_comp.png')
@@ -226,10 +232,16 @@ def seoul_map(option):
     menu = {'ho':0, 'da':1, 'ml':0, 'se':0, 'co':1, 'cg':0, 'cr':0, 'st':0, 'wc':0}
     geo_data = json.load(open('./static/data/skorea_municipalities_geo_simple.json', encoding='utf8'))
     
-    start_date = request.args.get('startDate', '2020-01-01')
-    end_date = request.args.get('endDate', datetime.now().strftime('%Y-%m-%d'))
+    # 최근 1년치 데이터만 보여주기 위해 수정
+    today = date.today()
+    last_month = 1 if today.month == 12 else today.month+1
+    last_date = date(today.year-1, last_month, 1)
+
+    start_date = request.args.get('startDate', last_date.strftime('%Y-%m-%d'))
+    end_date = request.args.get('endDate', today.strftime('%Y-%m-%d'))
     cdf_raw, _ = cu.make_corona_raw_df(start_date, end_date)
-    cdf = cu.make_corona_df(cdf_raw)
+    cdf = cu.make_corona_df(cdf_raw, last_month)
+    ### 이곳까지 수정 ###
 
     html_file = os.path.join(current_app.root_path, 'static/img/seoul_corona.html')
     map = folium.Map(location=[37.5502, 126.982], zoom_start=11, tiles='Stamen Toner')

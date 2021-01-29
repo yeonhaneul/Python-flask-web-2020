@@ -33,7 +33,7 @@ def iris():
     if request.method == 'GET':
         return render_template('regression/iris.html', menu=menu, weather=get_weather())
     else:
-        index = int(request.form['index'])
+        index = int(request.form['index'] or '0')
         feature_name = request.form['feature']
         column_dict = {'sl':'Sepal length', 'sw':'Sepal width', 
                        'pl':'Petal length', 'pw':'Petal width', 
@@ -71,7 +71,7 @@ def diabets():
         return render_template('regression/diabets.html', menu=menu, weather=get_weather())
     else:
         plt.figure()
-        index = int(request.form['index'])
+        index = int(request.form['index'] or '0')
         feature = request.form['feature']
         df = pd.read_csv('static/data/diabetes_train.csv')
         X = df[feature].values.reshape(-1,1)
@@ -113,7 +113,7 @@ def boston():
         return render_template('regression/boston.html', feature_list=feature_list,
                                menu=menu, weather=get_weather())
     else:
-        index = int(request.form['index'])
+        index = int(request.form['index'] or '0')
         feature_list = request.form.getlist('feature')
         df = pd.read_csv('static/data/boston_train.csv')
         X = df[feature_list].values

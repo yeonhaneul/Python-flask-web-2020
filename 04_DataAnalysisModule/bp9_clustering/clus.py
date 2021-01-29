@@ -32,7 +32,7 @@ def cluster():
         return render_template('cluster/cluster.html', menu=menu, weather=get_weather())
     
     else:
-        k_number = int(request.form['k_number'])
+        k_number = int(request.form['k_number'] or '2') # Default 2
         f_csv = request.files['csv']
         file_csv = os.path.join(current_app.root_path, 'static/upload/') + f_csv.filename
         f_csv.save(file_csv)

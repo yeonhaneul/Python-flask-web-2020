@@ -7,6 +7,7 @@ from sklearn.datasets import load_digits
 import os, joblib
 import pandas as pd
 import re
+from konlpy.tag import Okt
 import matplotlib.pyplot as plt
 from my_util.weather import get_weather
 
@@ -69,7 +70,11 @@ def digits():
 
 @aclsf_bp.before_app_first_request
 def before_app_first_request():
-    global news20_countlr, news20_tfidflr, news20_tfidfsvc, imdb_countlr, imdb_tfidflr
+    global news20_countlr, news20_tfidflr, news20_tfidfsvc, imdb_countlr, imdb_tfidflr, naver_countlr, naver_countnb, naver_tfidflr, naver_tfidfnb
+    naver_countlr = joblib.load('static/model/naver_countlr.pkl')
+    naver_countnb = joblib.load('static/model/naver_countnb.pkl')
+    naver_tfidflr = joblib.load('static/model/naver_tfidflr.pkl')
+    naver_tfidfnb = joblib.load('static/model/naver_tfidfnb.pkl')
     news20_countlr = joblib.load('static/model/news20_countlr.pkl')
     news20_tfidflr = joblib.load('static/model/news20_tfidflr.pkl')
     news20_tfidfsvc = joblib.load('static/model/news20_tfidfsvc.pkl')
@@ -140,3 +145,41 @@ def imdb():
             result = {'review':review, 'pred_cl':pred_cl, 'pred_tl':pred_tl}
         return render_template('a_classification/imdb_res.html', menu=menu, 
                                 res=result, imdb=review_list[0], weather=get_weather())
+
+@aclsf_bp.route('/naver', methods=['GET', 'POST'])
+def naver():
+    menu = {'ho':0, 'da':0, 'ml':1, 
+            'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
+            'cf':0, 'ac':1, 're':0, 'cu':0}
+    if request.method == 'GET':
+        return render_template('a_classification/naver.html', menu=menu, weather=get_weather())
+    else:
+        if request.form['option'] == 'index':
+            index = int(request.form['index'] or '0') # default 0
+            df = pd.read_csv('static/data/NaverMovie/test.tsv', sep='\t')
+            review_text = df.document[index]
+            label = df.label[index]
+        else:
+            review_text = request.form['review']
+            label = '직접확인'  
+
+        review_list = []
+        r_review = re.sub('[^ㄱ-ㅎㅏ-ㅣ가-힣 ]', '', review_text)
+        okt = Okt()
+        stopwords = ['의','가','이','은','들','는','좀','잘','걍','과','도','를','으로','자','에','와','한','하다', '을']
+        morphs = okt.morphs(r_review, stem=True)
+        n_review = ' '.join([word for word in morphs if not word in stopwords])
+        review_list.append(n_review)
+
+        pred_cl = naver_countlr.predict(review_list)
+        pred_cn = naver_countnb.predict(review_list)
+        pred_tl = naver_tfidflr.predict(review_list)
+        pred_tn = naver_tfidfnb.predict(review_list)
+
+        result = {'label':label,
+                'pred_cl':pred_cl[0],
+                'pred_tl':pred_tl[0],
+                'pred_cn':pred_cn[0],
+                'pred_tn':pred_tn[0]}
+        return render_template('a_classification/naver_res.html', menu=menu, 
+                                res=result, naver=review_text, weather=get_weather())

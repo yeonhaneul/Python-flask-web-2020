@@ -26,7 +26,7 @@ def get_weather_main():
 def cancer():
     menu = {'ho':0, 'da':0, 'ml':1, 
             'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
-            'cf':1, 'ac':0, 're':0, 'cu':0}
+            'cf':1, 'ac':0, 're':0, 'cu':1, 'tr':0}
     if request.method == 'GET':
         return render_template('classification/cancer.html', menu=menu, weather=get_weather())
     else:
@@ -52,7 +52,7 @@ def cancer():
 def titanic():
     menu = {'ho':0, 'da':0, 'ml':1, 
             'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
-            'cf':1, 'ac':0, 're':0, 'cu':0}
+            'cf':1, 'ac':0, 're':0, 'cu':0, 'tr':0}
     if request.method == 'GET':
         return render_template('classification/titanic.html', menu=menu, weather=get_weather())
     else:
@@ -85,9 +85,9 @@ def titanic():
 
 @clsf_bp.route('/pima', methods=['GET', 'POST'])
 def pima():
-    menu = {'ho':0, 'da':0, 'ml':10, 
+    menu = {'ho':0, 'da':0, 'ml':1, 
             'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
-            'cf':1, 'ac':0, 're':0, 'cu':0}
+            'cf':1, 'ac':0, 're':0, 'cu':0, 'tr':0}
     if request.method == 'GET':
         return render_template('classification/pima.html', menu=menu, weather=get_weather())
     else:
@@ -113,7 +113,7 @@ def pima():
 def iris():
     menu = {'ho':0, 'da':0, 'ml':1, 
             'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
-            'cf':1, 'ac':0, 're':0, 'cu':0}
+            'cf':1, 'ac':0, 're':0, 'cu':0, 'tr':0}
     if request.method == 'GET':
         return render_template('classification/iris.html', menu=menu, weather=get_weather())
     else:
@@ -139,7 +139,7 @@ def iris():
 def wine():
     menu = {'ho':0, 'da':0, 'ml':1, 
             'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
-            'cf':1, 'ac':0, 're':0, 'cu':0}
+            'cf':1, 'ac':0, 're':0, 'cu':0, 'tr':0}
     if request.method == 'GET':
         return render_template('classification/wine.html', menu=menu, weather=get_weather())
     else:

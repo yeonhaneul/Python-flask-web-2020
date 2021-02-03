@@ -23,7 +23,9 @@ def get_weather_main():
 
 @crawl_bp.route('/food', methods=['GET', 'POST'])
 def food():
-    menu = {'ho':0, 'da':1, 'ml':0, 'se':0, 'co':0, 'cg':0, 'cr':1, 'st':0, 'wc':0}
+    menu = {'ho':0, 'da':1, 'ml':0, 
+            'se':0, 'co':0, 'cg':0, 'cr':1, 'wc':0,
+            'cf':0, 'ac':0, 're':0, 'cu':0, 'tr':0}
     if request.method == 'GET':
         place = request.args.get('place', '강서구')
         rest_list = cu.diningcode(place)
@@ -35,13 +37,17 @@ def food():
 
 @crawl_bp.route('/music')
 def music():
-    menu = {'ho':0, 'da':1, 'ml':0, 'se':0, 'co':0, 'cg':0, 'cr':1, 'st':0, 'wc':0}
+    menu = {'ho':0, 'da':1, 'ml':0, 
+            'se':0, 'co':0, 'cg':0, 'cr':1, 'wc':0,
+            'cf':0, 'ac':0, 're':0, 'cu':0, 'tr':0}
     music_list = cu.genie()
     return render_template('crawling/music.html', menu=menu, weather=get_weather(),
                             music_list=music_list)
 
 @crawl_bp.route('/book')
 def book():
-    menu = {'ho':0, 'da':1, 'ml':0, 'se':0, 'co':0, 'cg':0, 'cr':1, 'st':0, 'wc':0}
+    menu = {'ho':0, 'da':1, 'ml':0, 
+            'se':0, 'co':0, 'cg':0, 'cr':1, 'wc':0,
+            'cf':0, 'ac':0, 're':0, 'cu':0, 'tr':0}
     book_list = cu.kyobo()
     return render_template('crawling/book.html', menu=menu, weather=get_weather(), book_list=book_list)

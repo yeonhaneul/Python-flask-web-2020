@@ -29,7 +29,7 @@ def get_weather_main():
 def iris():
     menu = {'ho':0, 'da':0, 'ml':1, 
             'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
-            'cf':0, 'ac':0, 're':1, 'cu':0}
+            'cf':0, 'ac':0, 're':1, 'cu':0, 'tr':0}
     if request.method == 'GET':
         return render_template('regression/iris.html', menu=menu, weather=get_weather())
     else:
@@ -66,7 +66,7 @@ def iris():
 def diabets():
     menu = {'ho':0, 'da':0, 'ml':1, 
             'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
-            'cf':0, 'ac':0, 're':1, 'cu':0}
+            'cf':0, 'ac':0, 're':1, 'cu':0, 'tr':0}
     if request.method == 'GET':
         return render_template('regression/diabets.html', menu=menu, weather=get_weather())
     else:
@@ -106,7 +106,7 @@ def diabets():
 def boston():
     menu = {'ho':0, 'da':0, 'ml':1, 
             'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
-            'cf':0, 'ac':0, 're':1, 'cu':0}
+            'cf':0, 'ac':0, 're':1, 'cu':0, 'tr':0}
     if request.method == 'GET':
         feature_list = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 
                         'TAX', 'PTRATIO', 'B', 'LSTAT']
@@ -154,7 +154,7 @@ def before_app_first_request():
 def stock():
     menu = {'ho':0, 'da':0, 'ml':1, 
             'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
-            'cf':0, 'ac':0, 're':1, 'cu':0}
+            'cf':0, 'ac':0, 're':1, 'cu':0, 'tr':0}
     if request.method == 'GET':
         return render_template('regression/stock.html', menu=menu, weather=get_weather(),
                                 kospi=kospi_dict, kosdaq=kosdaq_dict, 

@@ -23,7 +23,9 @@ def get_weather_main():
 
 @carto_bp.route('/coffee', methods=['GET', 'POST'])
 def coffee():
-    menu = {'ho':0, 'da':1, 'ml':0, 'se':0, 'co':0, 'cg':1, 'cr':0, 'st':0, 'wc':0}
+    menu = {'ho':0, 'da':1, 'ml':0, 
+            'se':0, 'co':0, 'cg':1, 'cr':0, 'wc':0,
+            'cf':0, 'ac':0, 're':0, 'cu':0, 'tr':0}
     if request.method == 'GET':
         return render_template('/cartogram/coffee.html', menu=menu, weather=get_weather_main())
     else:
@@ -54,7 +56,9 @@ def coffee():
 
 @carto_bp.route('/population/<option>')
 def population(option):
-    menu = {'ho':0, 'da':1, 'ml':0, 'se':0, 'co':0, 'cg':1, 'cr':0, 'st':0, 'wc':0}
+    menu = {'ho':0, 'da':1, 'ml':0, 
+            'se':0, 'co':0, 'cg':1, 'cr':0, 'wc':0,
+            'cf':0, 'ac':0, 're':0, 'cu':0, 'tr':0}
     pop = pd.read_csv('./static/data/population.csv')
     
     option_dict = {'area':'소멸위기지역', 'ratio':'소멸비율', 'girl_ratio':'여성비', 'y_girl_ratio':'2030여성비'}
@@ -67,7 +71,9 @@ def population(option):
 
 @carto_bp.route('/burger', methods=['GET', 'POST'])
 def burger():
-    menu = {'ho':0, 'da':1, 'ml':0, 'se':0, 'co':0, 'cg':1, 'cr':0, 'st':0, 'wc':0}
+    menu = {'ho':0, 'da':1, 'ml':0, 
+            'se':0, 'co':0, 'cg':1, 'cr':0, 'wc':0,
+            'cf':0, 'ac':0, 're':0, 'cu':0, 'tr':0}
     if request.method == 'GET':
         return render_template('cartogram/burger.html', menu=menu, weather=get_weather_main())
     else:

@@ -30,7 +30,7 @@ def get_weather_main():
 def digits():
     menu = {'ho':0, 'da':0, 'ml':1, 
             'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
-            'cf':0, 'ac':1, 're':0, 'cu':0}
+            'cf':0, 'ac':1, 're':0, 'cu':0, 'tr':0}
     if request.method == 'GET':
         return render_template('a_classification/digits.html', menu=menu, weather=get_weather())
     else:
@@ -91,7 +91,7 @@ def news20():
                     'talk.politics.misc', 'talk.religion.misc']
     menu = {'ho':0, 'da':0, 'ml':1, 
             'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
-            'cf':0, 'ac':1, 're':0, 'cu':0}
+            'cf':0, 'ac':1, 're':0, 'cu':0, 'tr':0}
     if request.method == 'GET':
         return render_template('a_classification/news20.html', menu=menu, weather=get_weather())
     else:
@@ -117,7 +117,7 @@ def news20():
 def imdb():
     menu = {'ho':0, 'da':0, 'ml':1, 
             'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
-            'cf':0, 'ac':1, 're':0, 'cu':0}
+            'cf':0, 'ac':1, 're':0, 'cu':0, 'tr':0}
     if request.method == 'GET':
         return render_template('a_classification/imdb.html', menu=menu, weather=get_weather())
     else:
@@ -150,7 +150,7 @@ def imdb():
 def naver():
     menu = {'ho':0, 'da':0, 'ml':1, 
             'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
-            'cf':0, 'ac':1, 're':0, 'cu':0}
+            'cf':0, 'ac':1, 're':0, 'cu':0, 'tr':0}
     if request.method == 'GET':
         return render_template('a_classification/naver.html', menu=menu, weather=get_weather())
     else:

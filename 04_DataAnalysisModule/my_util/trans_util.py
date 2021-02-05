@@ -30,6 +30,6 @@ def kakao_trans(text, src, target, kai_key):
     def generate_url(text, src, target):
         return f'https://dapi.kakao.com/v2/translation/translate?query={quote(text)}&src_lang={src}&target_lang={target}'
     result = requests.get(generate_url(text, src, target), headers={"Authorization": "KakaoAK "+kai_key}).json()
-    trans_text = result['translated_text']
-    for nested_element in trans_text:
-        return nested_element[0]
+    trans_text = result['translated_text'][0]
+    k_translated_text = '\n'.join([tmp_text for tmp_text in trans_text])
+    return k_translated_text

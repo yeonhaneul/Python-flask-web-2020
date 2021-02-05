@@ -137,16 +137,16 @@ def boston():
 kospi_dict, kosdaq_dict, nyse_dict, nasdaq_dict = {}, {}, {}, {}
 @rgrs_bp.before_app_first_request
 def before_app_first_request():
-    kospi = pd.read_csv('./static/data/KOSPI.csv', dtype={'종목코드': str})
+    kospi = pd.read_csv('static/data/KOSPI.csv', dtype={'종목코드': str})
     for i in kospi.index:
         kospi_dict[kospi['종목코드'][i]] = kospi['기업명'][i]
-    kosdaq = pd.read_csv('./static/data/KOSDAQ.csv', dtype={'종목코드': str})
+    kosdaq = pd.read_csv('static/data/KOSDAQ.csv', dtype={'종목코드': str})
     for i in kosdaq.index:
         kosdaq_dict[kosdaq['종목코드'][i]] = kosdaq['기업명'][i]
-    nyse = pd.read_excel('./static/data/NYSE.xlsx', dtype={'Ticker': str})
+    nyse = pd.read_excel('static/data/NYSE.xlsx', dtype={'Ticker': str})
     for i in nyse.index:
         nyse_dict[nyse['Ticker'][i]] = nyse['Company'][i]
-    nasdaq = pd.read_excel('./static/data/NASDAQ.xlsx', dtype={'Ticker': str})
+    nasdaq = pd.read_excel('static/data/NASDAQ.xlsx', dtype={'Ticker': str})
     for i in nasdaq.index:
         nasdaq_dict[nasdaq['Ticker'][i]] = nasdaq['Company'][i]
 

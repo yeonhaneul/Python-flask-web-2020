@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request, session
 from flask import current_app
+from fbprophet import Prophet
+from datetime import datetime, timedelta
 from konlpy.tag import Okt
 import os, json, requests, re, joblib
 from urllib.parse import quote
@@ -22,7 +24,9 @@ def get_weather_main():
 
 @trans_bp.route('/trans', methods=['GET', 'POST'])
 def trans():
-    menu = {'ho':0, 'da':0, 'ml':1, 'se':0, 'co':0, 'cg':0, 'cr':0, 'st':0, 'wc':0, 'cf':0, 'ac':0, 're':0, 'cu':0, 'tr':1}
+    menu = {'ho':0, 'da':0, 'ml':1, 
+            'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
+            'cf':0, 'ac':0, 're':0, 'cu':0, 'tr':1}
     if request.method == 'GET':
         return render_template('translation/trans.html', menu=menu, weather=get_weather())
     else:
@@ -45,7 +49,9 @@ def trans():
 
 @trans_bp.route('/tts', methods=['GET', 'POST'])
 def tts():
-    menu = {'ho':0, 'da':0, 'ml':1, 'se':0, 'co':0, 'cg':0, 'cr':0, 'st':0, 'wc':0, 'cf':0, 'ac':0, 're':0, 'cu':0, 'tr':1}
+    menu = {'ho':0, 'da':0, 'ml':1, 
+            'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
+            'cf':0, 'ac':0, 're':0, 'cu':0, 'tr':1}
     if request.method == 'GET':
         return render_template('translation/tts.html', menu=menu, weather=get_weather_main())
     else:
@@ -85,7 +91,9 @@ def tts():
 
 @trans_bp.route('/emotion', methods=['GET', 'POST'])
 def emotion():
-    menu = {'ho':0, 'da':0, 'ml':1, 'se':0, 'co':0, 'cg':0, 'cr':0, 'st':0, 'wc':0, 'cf':0, 'ac':0, 're':0, 'cu':0, 'tr':1}
+    menu = {'ho':0, 'da':0, 'ml':1, 
+            'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
+            'cf':0, 'ac':0, 're':0, 'cu':0, 'tr':1}
     if request.method == 'GET':
         return render_template('translation/emotion.html', menu=menu, weather=get_weather_main())
     else:

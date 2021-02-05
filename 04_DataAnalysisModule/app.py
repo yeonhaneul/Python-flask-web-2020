@@ -49,7 +49,7 @@ def get_weather_main():
 def index():
     menu = {'ho':1, 'da':0, 'ml':0, 
             'se':0, 'co':0, 'cg':0, 'cr':0, 'wc':0,
-            'cf':0, 'ac':0, 're':0, 'cu':0}
+            'cf':0, 'ac':0, 're':0, 'cu':0, 'tr':0}
     return render_template('m_page.html', menu=menu, weather=get_weather_main())
 
 if __name__ == '__main__':
